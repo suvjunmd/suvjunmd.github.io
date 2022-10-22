@@ -15,8 +15,9 @@ document.querySelectorAll("body > :not(#contentdoc)").forEach((child) => {
 });
 
 // remove br from title
-document.querySelector("#contentdoc .text-center h4 br").remove(); // doc date and number
-document.querySelector("#contentdoc .text-center h4 br").remove(); // doc title
+document.querySelectorAll("#contentdoc .text-center h4 br").forEach(br => {
+  br.remove();
+})
 
 // add header
 const docNumberAndDate = document.querySelectorAll(
