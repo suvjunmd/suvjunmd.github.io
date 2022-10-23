@@ -1,0 +1,77 @@
+body {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  max-width: 69ch;
+  -webkit-font-smoothing: antialiased;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+body,
+a {
+  color: #333;
+}
+
+* {
+  line-height: calc(1em + 0.5rem);
+}
+
+p,
+h1,
+h2,
+h3 {
+  overflow-wrap: break-word;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+nav,
+main h2,
+main h3,
+footer {
+  margin-top: 2.5rem;
+}
+
+nav ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+nav ul ul {
+  padding-left: 20px;
+}
+
+nav li {
+  margin-top: 0.5rem;
+}
+
+.modified {
+  color: blue;
+  font-style: italic;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1d2a35;
+  }
+
+  body,
+  a {
+    color: #ddd;
+  }
+
+  .modified {
+    color: #8deaff;
+  }
+}
