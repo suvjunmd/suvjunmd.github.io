@@ -70,8 +70,18 @@ document.querySelectorAll("main > p").forEach((p) => {
   }
 });
 
-// replace p with h2
-document.querySelectorAll('p[align="center"] + p[align="center"] + p[align="center"]').forEach((p) => {
+// remove br from title
+document.querySelectorAll("main > p > br").forEach((br) => {
+  br.remove();
+});
+
+// convert p to h2 (3 lines)
+const p_to_h2_3_lines_query = `
+p[align="center"] + p[align="center"] + p[align="center"],
+p:has(> strong > span) + p:has(> span > strong) + p:has(> span > strong > strong),
+p:has(> strong > span) + p:has(> strong > span) + p:has(> strong > span)
+`;
+document.querySelectorAll(p_to_h2_3_lines_query).forEach((p) => {
   const firstLine = p.previousElementSibling.previousElementSibling;
   const secondLine = p.previousElementSibling;
   const formattedSecondLine = capitalizeFirstLetter(secondLine.innerText);
@@ -81,7 +91,12 @@ document.querySelectorAll('p[align="center"] + p[align="center"] + p[align="cent
   secondLine.remove();
 });
 
-document.querySelectorAll('p[align="center"] + p[align="center"]').forEach((p) => {
+// convert p to h2 (2 lines)
+const p_to_h2_2_lines_query = `
+p[align="center"] + p[align="center"],
+p:has(> strong:only-child > span) + p:has(> strong:only-child > span)
+`;
+document.querySelectorAll(p_to_h2_2_lines_query).forEach((p) => {
   const firstLine = p.previousElementSibling;
   const formattedSecondLine = capitalizeFirstLetter(p.innerText);
   p.outerHTML = `<h2>${firstLine.innerText}. ${formattedSecondLine}</h2>`;
@@ -148,12 +163,21 @@ document.querySelectorAll("main > p > strong:first-child + span:last-child").for
   parent.outerHTML = `<h3>${strongChild.innerHTML} ${spanChild.innerHTML}</h3>`;
 });
 
+// change regular article title from p to h3 (v2)
+document.querySelectorAll("main > p > span:only-child:has(> strong)").forEach((span) => {
+  span.innerHTML = span.innerHTML.replaceAll("&nbsp;", " ").trim();
+  const parent = span.parentElement;
+  parent.outerHTML = `<h3>${span.innerText}</h3>`;
+});
+
 // change article title without name from p to h3
 document.querySelectorAll("main > p > strong:only-child").forEach((strong) => {
   const parent = strong.parentElement;
   const strongChild = strong.firstElementChild.firstElementChild.firstElementChild;
-  strongChild.innerHTML = strongChild.innerHTML.replaceAll("&nbsp;", " ").trim();
-  parent.outerHTML = `<h3>${strongChild.innerHTML}</h3>`;
+  if (strongChild) {
+    strongChild.innerHTML = strongChild.innerHTML.replaceAll("&nbsp;", " ").trim();
+    parent.outerHTML = `<h3>${strongChild.innerHTML}</h3>`;
+  }
 });
 
 // change p with strange format to h3
@@ -185,12 +209,18 @@ document
     parent.outerHTML = `<p>${spanChild.innerHTML} ${em.innerHTML}</p>`;
   });
 
-// format regular paragraphs
+// format regular paragraphs v1
+document.querySelectorAll("main > p > span:only-child > span > span").forEach((span) => {
+  span.innerHTML = span.innerHTML.replaceAll("&nbsp;", " ").trim();
+  const parent = span.parentElement.parentElement.parentElement;
+  parent.outerHTML = `<p>${span.innerHTML}</p>`;
+});
+
+// format regular paragraphs v2
 document.querySelectorAll("main > p > span:only-child").forEach((span) => {
-  const spanChild = span.querySelector("span > span > span");
-  spanChild.innerHTML = spanChild.innerHTML.replaceAll("&nbsp;", " ").trim();
+  span.innerHTML = span.innerHTML.replaceAll("&nbsp;", " ").trim();
   const parent = span.parentElement;
-  parent.outerHTML = `<p>${spanChild.innerHTML}</p>`;
+  parent.outerHTML = `<p>${span.innerHTML}</p>`;
 });
 
 // format paragraphs with br in front
