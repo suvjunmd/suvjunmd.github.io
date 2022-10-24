@@ -217,7 +217,7 @@ document.querySelectorAll("main > p > span:only-child > span > span").forEach((s
 });
 
 // format regular paragraphs v2
-document.querySelectorAll("main > p > span:only-child").forEach((span) => {
+document.querySelectorAll('main > p > span:only-child[style="color:#333333;"]').forEach((span) => {
   span.innerHTML = span.innerHTML.replaceAll("&nbsp;", " ").trim();
   const parent = span.parentElement;
   parent.outerHTML = `<p>${span.innerHTML}</p>`;
@@ -261,4 +261,11 @@ document.querySelectorAll('main > p > em + em + em > span[style="color:blue;"]')
   spanChild1.innerHTML = spanChild1.innerHTML.replaceAll("&nbsp;", " ").trim();
   const parent = span3.parentElement.parentElement;
   parent.outerHTML = `<p class="modified">${spanChild1.innerHTML}${spanChild2.innerHTML}${spanChild3.innerHTML}</p>`;
+});
+
+// format modified paragraphs v3
+document.querySelectorAll('main > p > span:only-child[style="color:#0000FF;"] > em').forEach((em) => {
+  em.innerHTML = em.innerHTML.replaceAll("&nbsp;", " ").trim();
+  const parent = em.parentElement.parentElement;
+  parent.outerHTML = `<p class="modified">${em.innerHTML}</p>`;
 });
