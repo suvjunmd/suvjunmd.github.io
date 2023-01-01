@@ -24,6 +24,7 @@ const docNumberAndDate = document.querySelectorAll("#contentdoc .text-center h4"
 const formattedDocNumberAndDate = docNumberAndDate
   .replace("ЗАКОН", "Закон")
   .replace("LEGE", "Lege")
+  .replace("COD", "Cod")
   .replaceAll("-", ".");
 const docName = document.querySelectorAll("#contentdoc .text-center h4")[3].innerText;
 const docPublished = document.querySelector("#contentdoc > h4").innerText;
@@ -173,11 +174,18 @@ document.querySelectorAll("main > p > span:only-child:has(> strong)").forEach((s
 // change article title without name from p to h3
 document.querySelectorAll("main > p > strong:only-child").forEach((strong) => {
   const parent = strong.parentElement;
-  const strongChild = strong.firstElementChild.firstElementChild.firstElementChild;
+  const strongChild = strong?.firstElementChild?.firstElementChild?.firstElementChild;
   if (strongChild) {
     strongChild.innerHTML = strongChild.innerHTML.replaceAll("&nbsp;", " ").trim();
     parent.outerHTML = `<h3>${strongChild.innerHTML}</h3>`;
   }
+});
+
+// change regular article title from p to h3 (v3)
+document.querySelectorAll("main > p > strong:only-child").forEach((strong) => {
+  const parent = strong.parentElement;
+  strong.outerHTML = strong.innerHTML;
+  parent.outerHTML = `<h3>${parent.innerHTML.replaceAll("&nbsp;", " ").trim()}</h3>`;
 });
 
 // change p with strange format to h3
@@ -187,7 +195,7 @@ document.querySelectorAll("main > p > span:only-child > span > span > strong").f
   parent.outerHTML = `<h3>${parent.innerText}</h3>`;
 });
 
-// format expired paragraphs v1
+// format expired paragraphs (v1)
 document.querySelectorAll("main > p > span:first-child + em:last-child").forEach((em) => {
   const emChild = em.firstChild.firstChild.firstChild;
   emChild.innerHTML = emChild.innerHTML.replaceAll("&nbsp;", " ").trim();
@@ -197,7 +205,7 @@ document.querySelectorAll("main > p > span:first-child + em:last-child").forEach
   parent.outerHTML = `<p>${spanChild.innerHTML} ${emChild.innerHTML}</p>`;
 });
 
-// format expired paragraphs v2
+// format expired paragraphs (v2)
 document
   .querySelectorAll('main > p > span:first-child + span:last-child[style="color:red;"] > span > span > em')
   .forEach((em) => {
@@ -209,17 +217,36 @@ document
     parent.outerHTML = `<p>${spanChild.innerHTML} ${em.innerHTML}</p>`;
   });
 
-// format regular paragraphs v1
+// format regular paragraphs (v1)
 document.querySelectorAll("main > p > span:only-child > span > span").forEach((span) => {
   span.innerHTML = span.innerHTML.replaceAll("&nbsp;", " ").trim();
   const parent = span.parentElement.parentElement.parentElement;
   parent.outerHTML = `<p>${span.innerHTML}</p>`;
 });
 
-// format regular paragraphs v2
+// format regular paragraphs (v2)
 document.querySelectorAll('main > p > span:only-child[style="color:#333333;"]').forEach((span) => {
   span.innerHTML = span.innerHTML.replaceAll("&nbsp;", " ").trim();
   const parent = span.parentElement;
+  parent.outerHTML = `<p>${span.innerHTML}</p>`;
+});
+
+// format regular paragraphs (v3)
+document.querySelectorAll("main > p:not(:has(*))").forEach((p) => {
+  p.outerHTML = `<p>${p.innerHTML.replaceAll("&nbsp;", " ").trim()}</p>`;
+});
+
+// format regular paragraphs (v4)
+document.querySelectorAll("main > p > span:only-child > span:only-child").forEach((span) => {
+  const parent = span.parentElement.parentElement;
+  span.innerHTML = span.innerHTML.replaceAll("&nbsp;", " ").trim();
+  parent.outerHTML = `<p>${span.innerHTML}</p>`;
+});
+
+// format regular paragraphs (v5)
+document.querySelectorAll("main > p > span:only-child").forEach((span) => {
+  const parent = span.parentElement;
+  span.innerHTML = span.innerHTML.replaceAll("&nbsp;", " ").trim();
   parent.outerHTML = `<p>${span.innerHTML}</p>`;
 });
 
@@ -231,17 +258,42 @@ document.querySelectorAll("main > p > br:first-child + span:last-child").forEach
   parent.outerHTML = `<p>${spanChild.innerHTML}</p>`;
 });
 
-// format paragraphs with em in front
+// format paragraphs with em in front (v1)
 document.querySelectorAll("main > p > em:first-child + span:last-child").forEach((span) => {
   const spanChild = span.querySelector("span > span > span");
-  spanChild.innerHTML = spanChild.innerHTML.replaceAll("&nbsp;", " ").trim();
-  const emChild = span.previousElementSibling.querySelector("span > span > span");
-  emChild.innerHTML = emChild.innerHTML.replaceAll("&nbsp;", " ").trim();
-  const parent = span.parentElement;
-  parent.outerHTML = `<p><em>${emChild.innerHTML}</em> ${spanChild.innerHTML}</p>`;
+  if (spanChild) {
+    spanChild.innerHTML = spanChild.innerHTML.replaceAll("&nbsp;", " ").trim();
+    const emChild = span.previousElementSibling.querySelector("span > span > span");
+    emChild.innerHTML = emChild.innerHTML.replaceAll("&nbsp;", " ").trim();
+    const parent = span.parentElement;
+    parent.outerHTML = `<p><em>${emChild.innerHTML}</em> ${spanChild.innerHTML}</p>`;
+  }
 });
 
-// format modified paragraphs v1
+// format paragraphs with em in front (v2)
+document.querySelectorAll("main > p > em:first-child + span:last-child").forEach((span) => {
+  const spanChild = span.querySelector("span > span");
+  if (spanChild) {
+    spanChild.innerHTML = spanChild.innerHTML.replaceAll("&nbsp;", " ").trim();
+    const emChild = span.previousElementSibling.querySelector("span > span");
+    emChild.innerHTML = emChild.innerHTML.replaceAll("&nbsp;", " ").trim();
+    const parent = span.parentElement;
+    parent.outerHTML = `<p><em>${emChild.innerHTML}</em> ${spanChild.innerHTML}</p>`;
+  }
+});
+
+// format paragraphs with em in front (v3)
+document.querySelectorAll("main > p > em:only-child").forEach((em) => {
+  const parent = em.parentElement;
+  parent.outerHTML = `<p>${parent.innerHTML.replaceAll("&nbsp;", " ").trim()}</p>`;
+});
+
+// format paragraphs with sup
+document.querySelectorAll("main > p:has(> sup:only-child)").forEach((p) => {
+  p.outerHTML = `<p>${p.innerHTML.replaceAll("&nbsp;", " ").trim()}</p>`;
+});
+
+// format modified paragraphs (v1)
 document.querySelectorAll('main > p > em:only-child > span[style="color:blue;"]').forEach((span) => {
   const spanChild = span.querySelector("span > span > span");
   spanChild.innerHTML = spanChild.innerHTML.replaceAll("&nbsp;", " ").trim();
@@ -249,7 +301,7 @@ document.querySelectorAll('main > p > em:only-child > span[style="color:blue;"]'
   parent.outerHTML = `<p class="modified">${spanChild.innerHTML}</p>`;
 });
 
-// format modified paragraphs v2
+// format modified paragraphs (v2)
 document.querySelectorAll('main > p > em + em + em > span[style="color:blue;"]').forEach((span3) => {
   const spanChild3 = span3.querySelector("span > span > span");
   spanChild3.innerHTML = spanChild3.innerHTML.replaceAll("&nbsp;", " ").trim();
@@ -263,7 +315,7 @@ document.querySelectorAll('main > p > em + em + em > span[style="color:blue;"]')
   parent.outerHTML = `<p class="modified">${spanChild1.innerHTML}${spanChild2.innerHTML}${spanChild3.innerHTML}</p>`;
 });
 
-// format modified paragraphs v3
+// format modified paragraphs (v3)
 document.querySelectorAll('main > p > span:only-child[style="color:#0000FF;"] > em').forEach((em) => {
   em.innerHTML = em.innerHTML.replaceAll("&nbsp;", " ").trim();
   const parent = em.parentElement.parentElement;
