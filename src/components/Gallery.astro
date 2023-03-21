@@ -4,13 +4,19 @@ const { signs } = Astro.props;
 ---
 
 <ul>
-  {signs.map((sign) => (
-    <Card number={sign.number} name={sign.name} />
-  ))}
+  {
+    signs.map((sign) => (
+      <Card
+        number={sign.number}
+        name={sign.name}
+        hasDetails={sign.description || sign.notes}
+      />
+    ))
+  }
 </ul>
 
 <style>
- ul {
+  ul {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 0.5rem;

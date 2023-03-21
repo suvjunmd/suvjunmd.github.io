@@ -1,14 +1,29 @@
 ---
-const { number, name } = Astro.props;
+const { number, name, hasDetails } = Astro.props;
+const formattedNumber = number.replaceAll(".", "-");
 ---
 
 <li>
   <div>
-    <img src={`/images/s${number.replaceAll(".", "-")}.png`} loading="lazy" />
+    <img src={`/images/s${formattedNumber}.png`} loading="lazy" />
   </div>
 
   <p>
-    <a href={`/signs/${number.replaceAll(".", "-")}`}>{number}<br />{name}</a>
+    {
+      hasDetails ? (
+        <a href={`/signs/${formattedNumber}`}>
+          {number}
+          <br />
+          {name}
+        </a>
+      ) : (
+        <>
+          {number}
+          <br />
+          {name}
+        </>
+      )
+    }
   </p>
 </li>
 
@@ -39,7 +54,7 @@ const { number, name } = Astro.props;
     word-wrap: break-word;
     text-align: center;
     margin: 0;
-    background-color: #EEEEEE;
+    background-color: #eeeeee;
     flex-grow: 1;
     padding: 0.5rem;
     line-height: 1.5rem;
@@ -47,7 +62,6 @@ const { number, name } = Astro.props;
 
   li > p > a {
     color: inherit;
-    text-decoration: none;
   }
 
   li > p > a::after {

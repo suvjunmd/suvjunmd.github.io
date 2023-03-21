@@ -6,11 +6,15 @@ export function getStaticPaths() {
   const signs = [];
 
   data.sections.forEach((section) =>
-    section.signs?.forEach((sign) => signs.push(sign))
+    section.signs
+      ?.filter((sign) => sign.description || sign.notes)
+      .forEach((sign) => signs.push(sign))
   );
   data.sections.forEach((section) =>
     section.subtitles?.forEach((subtitle) =>
-      subtitle.signs.forEach((sign) => signs.push(sign))
+      subtitle.signs
+        .filter((sign) => sign.description || sign.notes)
+        .forEach((sign) => signs.push(sign))
     )
   );
 
