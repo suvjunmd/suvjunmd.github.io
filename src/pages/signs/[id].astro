@@ -1,0 +1,103 @@
+---
+import data from "../../../data.json";
+import Gallery from "../../components/Gallery.astro";
+
+export function getStaticPaths() {
+  const signs = [];
+
+  data.sections.forEach((section) =>
+    section.signs?.forEach((sign) => signs.push(sign))
+  );
+  data.sections.forEach((section) =>
+    section.subtitles?.forEach((subtitle) =>
+      subtitle.signs.forEach((sign) => signs.push(sign))
+    )
+  );
+
+  const staticPaths = signs.map((sign) => ({
+    params: { id: sign.number.replaceAll(".", "-") },
+  }));
+
+  return staticPaths;
+}
+
+const { id } = Astro.params;
+
+const signs = [];
+
+data.sections.forEach((section) =>
+  section.signs?.forEach((sign) => signs.push(sign))
+);
+data.sections.forEach((section) =>
+  section.subtitles?.forEach((subtitle) =>
+    subtitle.signs.forEach((sign) => signs.push(sign))
+  )
+);
+
+const sign = signs.find((sign) => sign.number === id.replaceAll("-", "."));
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{sign.number} {sign.name}</title>
+  </head>
+  <body>
+    <main>
+      <h1>{sign.number} {sign.name}</h1>
+      <img src={`/images/s${id.replaceAll(".", "-")}.png`} />
+      {
+        sign.description && (
+          <>
+            <h2>Описание:</h2>
+            <p>{sign.description}</p>
+          </>
+        )
+      }
+      {
+        sign.notes && (
+          <>
+            <h2>Особенности применения:</h2>
+            <p>{sign.notes}</p>
+          </>
+        )
+      }
+      {
+        sign.relatedSigns && (
+          <Gallery
+            signs={sign.relatedSigns.map((relatedSign) =>
+              signs.find((signItem) => signItem.number === relatedSign)
+            )}
+          />
+        )
+      }
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, sans-serif;
+    margin: 0;
+  }
+
+  h1 {
+    word-wrap: break-word;
+  }
+
+  main {
+    max-width: 80ch;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    line-height: 1.5rem;
+  }
+
+  img {
+    max-width: 100%;
+  }
+</style>

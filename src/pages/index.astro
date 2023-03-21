@@ -1,0 +1,53 @@
+---
+import Gallery from "../components/Gallery.astro";
+import data from "../../data.json";
+const title = "Дорожные знаки";
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <main>
+      <h1>{title}</h1>
+      {
+        data.sections.map((item) => (
+          <>
+            <h2>{item.title}</h2>
+            {item.signs && <Gallery signs={item.signs} />}
+
+            {item.subtitles &&
+              item.subtitles.map((subtitle) => (
+                <>
+                  <h3>{subtitle.title}</h3>
+                  <Gallery signs={subtitle.signs} />
+                </>
+              ))}
+          </>
+        ))
+      }
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  * {
+    margin: 0;
+  }
+
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, sans-serif;
+  }
+  main {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+  }
+</style>

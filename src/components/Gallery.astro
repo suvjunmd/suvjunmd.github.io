@@ -1,0 +1,24 @@
+---
+import Card from "./Card.astro";
+const { signs } = Astro.props;
+---
+
+<ul>
+  {signs.map((sign) => (
+    <Card number={sign.number} name={sign.name} />
+  ))}
+</ul>
+
+<style>
+ ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+    padding: 0;
+    margin: 16px 0;
+  }
+
+  ul:last-of-type {
+    margin-bottom: 0;
+  }
+</style>
