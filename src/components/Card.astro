@@ -1,10 +1,10 @@
 ---
-const { number, name, hasDetails } = Astro.props;
+const { number, name, year, hasDetails } = Astro.props;
 const formattedNumber = number.replaceAll(".", "-");
 ---
 
 <li>
-  <div>
+  <div class="image-wrapper">
     <img src={`/images/s${formattedNumber}.png`} loading="lazy" />
   </div>
 
@@ -25,19 +25,20 @@ const formattedNumber = number.replaceAll(".", "-");
       )
     }
   </p>
+  {year && <div class="badge-wrapper"><span class="year">{year}</span></div>}
 </li>
 
 <style>
   li {
     display: flex;
     flex-direction: column;
-    border-radius: 1rem;
+    border-radius: 1rem 1rem 0 0;
     position: relative;
     overflow: hidden;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 
-  li > div {
+  .image-wrapper {
     display: flex;
     align-items: center;
     height: 125px;
@@ -71,5 +72,14 @@ const formattedNumber = number.replaceAll(".", "-");
     top: 0;
     right: 0;
     bottom: 0;
+  }
+
+  .badge-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .year {
+    padding: 0 0.2rem;
   }
 </style>
