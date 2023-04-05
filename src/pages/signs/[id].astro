@@ -6,15 +6,11 @@ export function getStaticPaths() {
   const signs = [];
 
   data.sections.forEach((section) =>
-    section.signs
-      ?.filter((sign) => sign.description || sign.notes)
-      .forEach((sign) => signs.push(sign))
+    section.signs?.forEach((sign) => signs.push(sign))
   );
   data.sections.forEach((section) =>
     section.subtitles?.forEach((subtitle) =>
-      subtitle.signs
-        .filter((sign) => sign.description || sign.notes)
-        .forEach((sign) => signs.push(sign))
+      subtitle.signs.forEach((sign) => signs.push(sign))
     )
   );
 
@@ -66,7 +62,7 @@ const sign = signs.find((sign) => sign.number === id.replaceAll("-", "."));
         sign.notes && (
           <>
             <h2>Особенности применения:</h2>
-            <Fragment set:html={sign.notes}></Fragment>
+            <Fragment set:html={sign.notes} />
           </>
         )
       }
@@ -91,6 +87,7 @@ const sign = signs.find((sign) => sign.number === id.replaceAll("-", "."));
 
   h1 {
     word-wrap: break-word;
+    line-height: 2rem;
   }
 
   main {

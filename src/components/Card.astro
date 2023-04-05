@@ -9,23 +9,19 @@ const formattedNumber = number.replaceAll(".", "-");
   </div>
 
   <p>
-    {
-      hasDetails ? (
-        <a href={`/signs/${formattedNumber}`}>
-          {number}
-          <br />
-          {name}
-        </a>
-      ) : (
-        <>
-          {number}
-          <br />
-          {name}
-        </>
-      )
-    }
+    <a href={`/signs/${formattedNumber}`}>
+      {number}
+      <br />
+      {name}
+    </a>
   </p>
-  {year && <div class="badge-wrapper"><span class="year">{year}</span></div>}
+  {
+    year && (
+      <div class="badge-wrapper">
+        <span class="year">{year}</span>
+      </div>
+    )
+  }
 </li>
 
 <style>
@@ -63,15 +59,6 @@ const formattedNumber = number.replaceAll(".", "-");
 
   li > p > a {
     color: inherit;
-  }
-
-  li > p > a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
   }
 
   .badge-wrapper {
