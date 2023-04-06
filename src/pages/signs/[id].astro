@@ -44,35 +44,34 @@ const sign = signs.find((sign) => sign.number === id.replaceAll("-", "."));
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{sign.number} {sign.name}</title>
-    <meta
-      property="og:image"
-      content={`/images/s${id}.png`}
-    />
+    <title>{sign.number} - {sign.name}</title>
+    <meta property="og:image" content={`/images/s${id}.png`} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://suvjunmd.github.io/" />
-    <meta property="og:title" content={sign.number} />
-    <meta property="og:description" content={sign.name} />
-    <meta
-      property="og:image"
-      content={`/images/s${id}.png`}
-    />
+    <meta property="og:title" content={`${sign.number} - ${sign.name}`} />
+    {
+      sign.description && (
+        <meta property="og:description" content={sign.description} />
+      )
+    }
+    <meta property="og:image" content={`/images/s${id}.png`} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://suvjunmd.github.io/" />
-    <meta property="twitter:title" content={sign.number} />
-    <meta property="twitter:description" content={sign.name} />
-    <meta
-      property="twitter:image"
-      content={`/images/s${id}.png`}
-    />
+    <meta property="twitter:title" content={`${sign.number} - ${sign.name}`} />
+    {
+      sign.description && (
+        <meta property="twitter:description" content={sign.description} />
+      )
+    }
+    <meta property="twitter:image" content={`/images/s${id}.png`} />
   </head>
   <body>
     <main>
-      <h1>{sign.number} {sign.name}</h1>
+      <h1>{sign.number} - {sign.name}</h1>
       <img src={`/images/s${id}.png`} />
       {
         sign.description && (
