@@ -1,15 +1,16 @@
 ---
 const { number, name, year, hasDetails } = Astro.props;
 const formattedNumber = number.replaceAll(".", "-");
+const linkId = `link-${number}`;
 ---
 
-<li>
+<li aria-labelledby={linkId}>
   <div class="image-wrapper">
     <img src={`/images/s${formattedNumber}.png`} loading="lazy" />
   </div>
 
   <p>
-    <a href={`/signs/${formattedNumber}`}>
+    <a href={`/signs/${formattedNumber}`} id={linkId}>
       {number}
       <br />
       {name}
